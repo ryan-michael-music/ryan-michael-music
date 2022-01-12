@@ -78,20 +78,38 @@ body {
 }
 
 .seek-bar::-webkit-slider-thumb{
-    -webkit-appearance: none;
     width: 1px;
     height: 20px;
+    -webkit-appearance: none;
     box-shadow: -400px 0 0 400px #d5eebb;
+    z-index: 1;
+}
+
+.amount-loaded{
+    position: absolute;
+    width: 0%;
+    height: 21px;
+    left:0;
+    background: rgba(0, 0, 0, 0.1);
+    /* box-shadow: -3px 3px 0 1px rgba(0, 0, 0, 0.06); */
+    z-index: -1;
+    border-radius: 8px;
 }
 
 .current-time,
 .song-duration {
     font-size: 14px;
+    top: 5px;
 }
 
 .song-duration {
     position: absolute;
-    right: 0;
+    right: 2%;
+}
+
+.current-time {
+    position: absolute;
+    left: 2%
 }
 
 .controls {
@@ -100,7 +118,7 @@ body {
     justify-content: space-between;
     align-items: center;
     margin: auto;
-    margin-top:20px;
+    margin-top: 30px;
 }
 
 .play-btn {

@@ -3,6 +3,7 @@ let playButton = document.querySelector(".play-btn");
 let seekBar = document.querySelector(".seek-bar");
 let currentTimeText = document.querySelector(".current-time");
 let songDurationText = document.querySelector(".song-duration");
+let amountLoadedBar = document.querySelector(".amount-loaded");
 
 function formatTime(seconds) {
     [parsedMinutes, parsedSeconds] = 
@@ -41,10 +42,18 @@ seekBar.addEventListener('input', () => {
     currentTimeText.innerHTML = formatTime(seekBar.value);
 });
 
-// periodically update slider to see what point in the song we are at
-setInterval(() => {
+music.addEventListener('timeupdate', () => {
+    // periodically update slider to see what point in the song we are at
     seekBar.value = music.currentTime;
     currentTimeText.innerHTML = formatTime(music.currentTime);
-    },
-    100
-);
+
+    // show the last point at which we have buffered audio
+    amountLoadedBar.style.width = 
+        (music.buffered.end(music.buffered.length - 1) / music.duration) * 100 + "%";
+});
+
+// //TODO: Should this be an EventListener for music.timeupdate?
+// setInterval(() => {
+
+
+// }, 100);
