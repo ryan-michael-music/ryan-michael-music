@@ -1,0 +1,27 @@
+<head>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Ryan Michael</h1>
+    <div class="music-player">
+        <h1 class="music-name">Rest</h1>
+        <!-- <p class="artist-name">Ryan Michael</p> -->
+        <div class="disk"></div>
+        <div class="song-slider">
+            <input type="range" value="0" class="seek-bar">
+            <span class="amount-loaded"></span>
+            <span class="current-time">0:00</span>
+            <span class="song-duration">0:00</span>
+        </div>
+        <div class="controls">
+            <button class="btn backward-btn"><span></span></button>
+            <button class="play-btn pause">
+                <span></span>
+                <span></span>
+            </button>
+            <button class="btn forward-btn"><span></span></button>
+        </div>
+    </div>
+    <audio id="audio"></audio>
+    <script type="text/javascript" src="./app.js" defer></script>
+</body>
