@@ -1,0 +1,8 @@
+{
+    "base_directory": "./assets/",
+    "music_files": [
+        "rest.mp3", 
+        "syndicate.mp3", 
+        "nightmare.mp3"
+    ]
+}
