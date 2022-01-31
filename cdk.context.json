@@ -1,8 +1,12 @@
 {
-    "base_directory": "./assets/",
-    "music_files": [
-        "rest.mp3", 
-        "syndicate.mp3", 
-        "nightmare.mp3"
-    ]
+  "base_directory": "./assets/",
+  "music_files": [
+    "rest.mp3",
+    "syndicate.mp3",
+    "nightmare.mp3"
+  ],
+  "hosted-zone:account=060512923927:domainName=ryanmichaelmusic.live:region=us-east-1": {
+    "Id": "/hostedzone/Z024273312K66N4Y1X1D7",
+    "Name": "ryanmichaelmusic.live."
+  }
 }

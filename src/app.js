@@ -53,7 +53,7 @@ async function getSongList(env) {
             return getSongList.songNames;
         }
 
-        let endpointName = 'https://d2b5s7j64om2gs.cloudfront.net';
+        let endpointName = 'https://ryanmichaelmusic.live';
         let parameters = 'list-type=2&prefix=assets/&delimeter=/';
         try {
             let response = await fetch(`${endpointName}/?${parameters}`);
@@ -89,7 +89,7 @@ async function setSong(env, songIDX) {
     }
     else if (env === "CLOUD")
     {
-        musicURL = 'https://d2b5s7j64om2gs.cloudfront.net';
+        musicURL = 'https://ryanmichaelmusic.live';
     }
     else 
     {
@@ -170,9 +170,3 @@ music.addEventListener('timeupdate', () => {
             (music.buffered.end(music.buffered.length - 1) / music.duration) * 100 + "%";
     }
 });
-
-// //TODO: Should this be an EventListener for music.timeupdate?
-// setInterval(() => {
-
-
-// }, 100);
