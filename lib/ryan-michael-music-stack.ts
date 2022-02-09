@@ -64,22 +64,30 @@ export class RyanMichaelMusicStack extends Stack {
       validation: cert.CertificateValidation.fromDns(hostedZone)
     });
 
+    const cloudFrontRedirect = new cloudfront.Function(this, 'Redirect', {
+      code: cloudfront.FunctionCode.fromFile({filePath: './src/cloudfront-redirect.js'})
+    });
+
     // Add a cloudfront endpoint to cache/proxy/throttle s3 requests
     // TODO: ADD THROTTLING/RATE LIMITING WITH WAF
-    // TODO: ADD QUERY STRING FORWARDING 
     const webDistribution = new cloudfront.Distribution(this, 'cdnDistribution', {
       defaultBehavior: { 
         origin: new origins.S3Origin(websiteBucket, {originAccessIdentity: oai}),
         allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD,
         // TODO: use lambda@edge to enable HSTS
-        viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.HTTPS_ONLY,
+        viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
         cachePolicy: new cloudfront.CachePolicy(this, 'CachePolicyWithQueryStrings', {
           queryStringBehavior: cloudfront.CacheQueryStringBehavior.all()
         }),
-       },
-       domainNames: ['ryanmichaelmusic.live'],
-       certificate: dnsCert
-    });
+        functionAssociations: [{
+          function: cloudFrontRedirect,
+          eventType: cloudfront.FunctionEventType.VIEWER_REQUEST
+        }]
+      },
+      domainNames: ['ryanmichaelmusic.live'],
+      certificate: dnsCert,
+      },
+    );
 
     const musicBucketDeployment = new s3deploy.BucketDeployment(this, 'DeployMusic', {
       sources: [s3deploy.Source.asset('./assets')],
@@ -98,7 +106,7 @@ export class RyanMichaelMusicStack extends Stack {
     });
 
     const websiteBucketDeployment = new s3deploy.BucketDeployment(this, 'DeployWebsite', {
-      sources: [s3deploy.Source.asset('./src', {exclude: ["test_assets/*"]})],
+      sources: [s3deploy.Source.asset('./src', {exclude: ["test_assets/*", "cloudfront-redirect.js"]})],
       destinationBucket: websiteBucket,
 
       // invalidate cloudfront cache
