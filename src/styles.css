@@ -11,7 +11,7 @@ h1 {
 
 body {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;  /* do we need this?? */
@@ -22,15 +22,22 @@ body {
 }
 
 .music-player {
-    width: 350px;
-    height: 550px;
+    height: 80vh;
+    aspect-ratio: 11 / 16;
     border-radius: 20px;
     background: rgba(255, 255, 255, 0.08);
     box-shadow: 0 40px 100px rgba(255, 255, 255, 0.1);
-    padding: 10px;
-    overflow: hidden;
+    /* padding: 10px; */
+    /* overflow: hidden; */
     color: #d5eebb;
     margin: 0 auto;
+}
+
+@media (orientation: portrait) {
+    .music-player {
+        aspect-ratio: 8 / 16;
+        /* background: rgba(255, 255, 255, 1); */
+    }
 }
 
 .music-name,
@@ -53,8 +60,8 @@ body {
     position: relative;
     display: block;
     margin: 40px auto;
-    width: 180px;
-    height: 180px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     background-image: url("moosic-icon.jpg");
     background-size: cover;
@@ -62,7 +69,8 @@ body {
 }
 
 .song-slider{
-    width: 100%;
+    margin-left: 10%;
+    margin-right: 10%;
     position: relative;
 }
 
@@ -74,6 +82,7 @@ body {
     background: #7fc8a9;
     overflow: hidden;
     cursor: pointer;
+    margin: 1% 1% 1% 1%
 
 }
 
@@ -87,8 +96,10 @@ body {
 
 .amount-loaded{
     position: absolute;
+    top: 10%;
+    vertical-align: center;
     width: 0%;
-    height: 21px;
+    height: 90%;
     left:0;
     background: rgba(0, 0, 0, 0.1);
     /* box-shadow: -3px 3px 0 1px rgba(0, 0, 0, 0.06); */
@@ -99,7 +110,7 @@ body {
 .current-time,
 .song-duration {
     font-size: 14px;
-    top: 5px;
+    margin-top: 1%;
 }
 
 .song-duration {
@@ -113,7 +124,7 @@ body {
 }
 
 .controls {
-    width: 60%;
+    width: 80%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -123,8 +134,8 @@ body {
 
 .play-btn {
     position: relative;
-    width: 60px;
-    height: 60px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     background: #d5eebb;
     cursor: pointer;
@@ -136,8 +147,8 @@ body {
     top: 50%;
     left: 25%;
     transform: translateY(-50%);
-    width: 10px;
-    height: 30px;
+    width: 16%;
+    height: 50%;
     border-radius: 2px;
     background: #5f7a61;
     transition: .5s;
@@ -179,8 +190,8 @@ body {
 }
 
 .btn {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     background: #d5eebb;
     border-radius: 50%;
     display: flex;
@@ -196,8 +207,8 @@ body {
     top: 20%;
     /* left: 5%;  */
     /* transform: translateY(-50%); */
-    width: 10px;
-    height: 30px;
+    width: 25%;
+    height: 75%;
     border-radius: 2px;
     background: #5f7a61;
     clip-path: polygon(0 0, 100% 25%, 100% 25%, 0% 50%);
