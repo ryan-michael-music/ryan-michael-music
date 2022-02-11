@@ -7,6 +7,8 @@
 h1 {
     text-align:center;
     margin: 2vh;
+    color: #8c2e1b;
+    font-size: 72px;
 }
 
 body {
@@ -16,7 +18,7 @@ body {
     flex-direction: column;
     justify-content: center;  /* do we need this?? */
     align-items: center;
-    background: #5f7a61;
+    background: #160909;
     font-family: 'roboto', sans-serif;
 
 }
@@ -40,8 +42,7 @@ body {
     }
 }
 
-.music-name,
-.artist-name{
+.music-name {
     text-align: center;
     text-transform: capitalize;
 }
@@ -52,9 +53,7 @@ body {
     margin-bottom: 10px;
 }
 
-.artist-name{
-    font-size: 20px;
-}
+
 
 .disk{
     position: relative;
@@ -79,7 +78,7 @@ body {
     width: 100%;
     height: 5px;
     border-radius: 10px;
-    background: #7fc8a9;
+    background: #725454;
     overflow: hidden;
     cursor: pointer;
     margin: 1% 1% 1% 1%
@@ -90,7 +89,7 @@ body {
     width: 1px;
     height: 20px;
     -webkit-appearance: none;
-    box-shadow: -400px 0 0 400px #d5eebb;
+    box-shadow: -400px 0 0 400px #947272;
     z-index: 1;
 }
 
@@ -137,7 +136,7 @@ body {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    background: #d5eebb;
+    background: #665050;
     cursor: pointer;
     border: none;
 }
@@ -150,7 +149,7 @@ body {
     width: 16%;
     height: 50%;
     border-radius: 2px;
-    background: #5f7a61;
+    background: #271d1d;
     transition: .5s;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 }
@@ -192,7 +191,7 @@ body {
 .btn {
     width: 60px;
     height: 60px;
-    background: #d5eebb;
+    background: #665050;
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -210,7 +209,7 @@ body {
     width: 25%;
     height: 75%;
     border-radius: 2px;
-    background: #5f7a61;
+    background: #1f1818;
     clip-path: polygon(0 0, 100% 25%, 100% 25%, 0% 50%);
 }
 
