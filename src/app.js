@@ -1,4 +1,6 @@
-const ENV = "CLOUD"; // set to either LOCAL or CLOUD
+// TODO: Manage environments with webpack
+const CONFIG = require("./env-config.json");
+const ENV_CONFIG = CONFIG[ENVIRONMENT];
 const music = document.querySelector("#audio");
 let playButton = document.querySelector(".play-btn");
 let seekBar = document.querySelector(".seek-bar");
@@ -8,6 +10,9 @@ let amountLoadedBar = document.querySelector(".amount-loaded");
 let nextSongButton = document.querySelector(".forward-btn");
 let prevSongButton = document.querySelector(".backward-btn");
 let musicNameText = document.querySelector(".music-name");
+let acousticSongsButton = document.querySelector(".music-tab.acoustic");
+let electronicSongsButton = document.querySelector(".music-tab.electronic");
+
 
 function formatTime(seconds) {
     [parsedMinutes, parsedSeconds] = 
@@ -19,6 +24,7 @@ function formatTime(seconds) {
     return `${parsedMinutes}:${parsedSeconds}`;
 }
 
+// TODO: REPLACE THIS WITH SONG NAMES IN CONFIG FILE
 function getSongName(song) {
     // Use the file name minus the extension a the song title.
     // The "correct" way to do this would be to read the meta
@@ -39,64 +45,30 @@ function getSongName(song) {
         .join(' '));
 }
 
-async function getSongList(env) {
-    if (env === 'LOCAL') {
-        // These song names need to be set manually
-        getSongList.songNames = ["REST-MIX-1.wav", "NIGHTMARE VERB.wav"]
-        return getSongList.songNames;
-    }
-    else if (env === 'CLOUD') {
-        // if we have already pulled song names from the s3 bucket/server
-        // we don't want to do so a second time.
-        // s3 GETs aren't free!!
-        if (typeof getSongList.songNames !== 'undefined') {
-            return getSongList.songNames;
-        }
+async function setSong(env, songIDX, newSongType) {
+    // TODO: static vars are adding up. refactor this out to a class??
 
-        let endpointName = 'https://ryanmichaelmusic.live';
-        let parameters = 'list-type=2&prefix=assets/&delimeter=/';
-        try {
-            let response = await fetch(`${endpointName}/?${parameters}`);
-            let xmlBucketData = await response.text();
-            let parser = new DOMParser();
-            let songTags = parser.parseFromString(xmlBucketData, "text/xml").getElementsByTagName("Key");
-            getSongList.songNames = Array.from(songTags).map(tag => tag.textContent);
-            return getSongList.songNames;
-        }
-        catch (e) {
-            console.error(`Could not retrieve song names from bucket: ${e}`);
-            return [];
-        }
-    }
-    else {
-       console.error("Could not determine environment to get song list.");
-       return [];
-    }
-}
-
-async function setSong(env, songIDX) {
-    // initialize static variable
-    if (typeof setSong.currentSongIDX === 'undefined')
-    {
+    // initialize static variables
+    if (typeof setSong.currentSongIDX === 'undefined') {
         setSong.currentSongIDX = 0;
     }
+    if (typeof newSongType === 'undefined') {
+        // default to electronic music (change to acoustic after it's recorded!!)
+        if (typeof setSong.currentSongType === 'undefined'){
+            setSong.currentSongType = 'electronic';
+        }
+        else {
+            ; // song type has already been set and a new one hasn't been passed in.
+              // do nothing.
+        }
+    }
+    else {  // new song type was passed in. Let's set it.
+        setSong.currentSongType = newSongType;
+    }
 
-    let musicURL = "";
-    let musicFileNames = await getSongList(env);
-    if (env === "LOCAL")
-    {
-        musicURL = `http://${window.location.host}/test_assets`;
-    }
-    else if (env === "CLOUD")
-    {
-        musicURL = 'https://ryanmichaelmusic.live';
-    }
-    else 
-    {
-        musicURL = "ERROR";
-        console.error("Could not determine environment to set song.");
-        return;
-    }
+    let musicURL = env["music_url"];
+    let musicFileNames = env["song_names"][setSong.currentSongType];
+    console.log(musicFileNames);
 
     // with current song index + 1, and 
     // "previous song" with current song index - 1
@@ -114,17 +86,15 @@ async function setSong(env, songIDX) {
     // by default, music will pause when we switch songs, but let's be
     // explicit that we want music paused when the play button is set
     // to pause.
-    if (playButton.classList.contains("pause"))
-    {
+    if (playButton.classList.contains("pause")) {
         music.pause();
     }
-    else // play button is set to play (and not pause)
-    {
+    else { // play button is set to play (and not pause)
         music.play();
     }
 }
 
-setSong(ENV, 0);
+setSong(ENV_CONFIG, 0);
 
 music.addEventListener('durationchange', () => {
     seekBar.value = 0;
@@ -133,23 +103,29 @@ music.addEventListener('durationchange', () => {
 });
 
 playButton.addEventListener('click', () => {
-    if (playButton.classList.contains("pause"))
-    {
+    if (playButton.classList.contains("pause")) {
         music.play();
     }
-    else // not paused
-    {
+    else { // not paused
         music.pause();
     }
     playButton.classList.toggle("pause");
 });
 
+acousticSongsButton.addEventListener('click', () => {
+    setSong(ENV_CONFIG, setSong.currentSongIDX, 'acoustic');
+});
+
+electronicSongsButton.addEventListener('click', () => {
+    setSong(ENV_CONFIG, setSong.currentSongIDX, 'electronic');
+});
+
 nextSongButton.addEventListener('click', () => {
-    setSong(ENV, setSong.currentSongIDX + 1);
+    setSong(ENV_CONFIG, setSong.currentSongIDX + 1);
 });
 
 prevSongButton.addEventListener('click', () => {
-    setSong(ENV, setSong.currentSongIDX - 1);
+    setSong(ENV_CONFIG, setSong.currentSongIDX - 1);
 })
 
 seekBar.addEventListener('input', () => {
@@ -165,7 +141,7 @@ music.addEventListener('timeupdate', () => {
     // show the last point at which we have buffered audio
     // music.duration may be set to NaN if we change songs, and the timeupdate event is fired
     // before the duration is correctly updated.
-    if (!isNaN(music.duration)){
+    if (!isNaN(music.duration)) {
         amountLoadedBar.style.width = 
             (music.buffered.end(music.buffered.length - 1) / music.duration) * 100 + "%";
     }

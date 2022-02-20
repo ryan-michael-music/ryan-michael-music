@@ -22,11 +22,18 @@
             "type": "firefox",
             "request": "attach",
             "name": "Attach to live FF process",
+            "webRoot": "${workspaceFolder}/src",
+            "url": "http://127.0.0.1:5500/",
             "pathMappings": [
+                {
+                    "url": "webpack://ryan-michael-music/src",
+                    "path": "${workspaceFolder}/src"
+                },
                 {
                     "url": "http://127.0.0.1:5500/",
                     "path": "${workspaceFolder}/src"
-                }
+                },
+
             ]
         }
     ]

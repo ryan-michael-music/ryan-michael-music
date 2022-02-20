@@ -1,0 +1,29 @@
+{
+    "DEV": {
+        "song_names": {
+            "electronic": [
+                "REST-MIX-1.wav",
+                "NIGHTMARE VERB.wav"
+            ],
+            "acoustic": [
+                "COMING SOON! :)"
+            ]
+        },
+        "music_url": 
+            "http://127.0.0.1:5500/test_assets"
+    },
+    "PROD": {
+        "song_names":{
+            "electronic": [
+                "rest.mp3",
+                "nightmare.mp3",
+                "syndicate.mp3"
+            ],
+            "acoustic": [
+                "COMING SOON! :)"
+            ]
+        },
+        "music_url":
+            "https://ryanmichaelmusic.live"
+    }
+}

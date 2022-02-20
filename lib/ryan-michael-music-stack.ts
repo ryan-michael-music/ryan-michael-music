@@ -16,11 +16,6 @@ export class RyanMichaelMusicStack extends Stack {
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
 
-    const basePath: string = this.node.tryGetContext("base_directory");
-    const songFiles: [string] = this.node.tryGetContext("music_files");
-    const fullSongPaths  = songFiles.map((songName) => {
-      `${basePath}${songName}`
-    });
 
     const websiteBucket = new s3.Bucket(this, 'WebsiteBucket', {
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL
@@ -106,7 +101,16 @@ export class RyanMichaelMusicStack extends Stack {
     });
 
     const websiteBucketDeployment = new s3deploy.BucketDeployment(this, 'DeployWebsite', {
-      sources: [s3deploy.Source.asset('./src', {exclude: ["test_assets/*", "cloudfront-redirect.js"]})],
+      sources: [s3deploy.Source.asset('./src', {
+        exclude: [
+          "test_assets/*", // don't need local test files in the cloud
+          "cloudfront-redirect.js", // uploaded as part of cloudfront component
+
+          // no need to upload uncompiled/bundled source files.
+          "app.js",
+          "env-config.json"
+        ]
+      })],
       destinationBucket: websiteBucket,
 
       // invalidate cloudfront cache
