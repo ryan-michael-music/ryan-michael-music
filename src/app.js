@@ -12,6 +12,7 @@ let prevSongButton = document.querySelector(".backward-btn");
 let musicNameText = document.querySelector(".music-name");
 let acousticSongsButton = document.querySelector(".music-tab.acoustic");
 let electronicSongsButton = document.querySelector(".music-tab.electronic");
+let artworkDisk = document.querySelector(".disk");
 
 
 function formatTime(seconds) {
@@ -53,9 +54,8 @@ async function setSong(env, songIDX, newSongType) {
         setSong.currentSongIDX = 0;
     }
     if (typeof newSongType === 'undefined') {
-        // default to electronic music (change to acoustic after it's recorded!!)
         if (typeof setSong.currentSongType === 'undefined'){
-            setSong.currentSongType = 'electronic';
+            setSong.currentSongType = 'acoustic';
         }
         else {
             ; // song type has already been set and a new one hasn't been passed in.
@@ -68,7 +68,6 @@ async function setSong(env, songIDX, newSongType) {
 
     let musicURL = env["music_url"];
     let musicFileNames = env["song_names"][setSong.currentSongType];
-    console.log(musicFileNames);
 
     // with current song index + 1, and 
     // "previous song" with current song index - 1
@@ -114,10 +113,14 @@ playButton.addEventListener('click', () => {
 
 acousticSongsButton.addEventListener('click', () => {
     setSong(ENV_CONFIG, setSong.currentSongIDX, 'acoustic');
+    // set icon to acoustic image
+    artworkDisk.style['background-image'] = 'url("acoustic.jpg")'
 });
 
 electronicSongsButton.addEventListener('click', () => {
     setSong(ENV_CONFIG, setSong.currentSongIDX, 'electronic');
+    // set icon to electronic image
+    artworkDisk.style['background-image'] = 'url("electronic.jpg")'
 });
 
 nextSongButton.addEventListener('click', () => {
