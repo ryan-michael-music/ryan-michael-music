@@ -1,12 +1,16 @@
 {
     "DEV": {
         "song_names": {
+            "__format": ["file name.extension", "song name"],
             "electronic": [
-                "REST-MIX-1.wav",
-                "NIGHTMARE VERB.wav"
+                ["REST-MIX-1.wav", "Rest (DEV)"],
+                ["NIGHTMARE VERB.wav", "Nighmare (DEV)"]
             ],
             "acoustic": [
-                "CHAINS.mp3"
+                ["CHAINS.mp3", "Chains"]
+            ],
+            "band": [
+                ["What Im Afraid Of.mp3", "What I'm Afraid Of"]
             ]
         },
         "music_url": 
@@ -14,13 +18,17 @@
     },
     "PROD": {
         "song_names":{
+            "__format": ["file name.extension", "song name"],
             "electronic": [
-                "rest.mp3",
-                "nightmare.mp3",
-                "syndicate.mp3"
+                ["rest.mp3", "Rest"],
+                ["nightmare.mp3", "Nightmare"],
+                ["syndicate.mp3", "Syndicate"]
             ],
             "acoustic": [
-                "CHAINS.mp3"
+                ["CHAINS.mp3", "Chains"]
+            ],
+            "band": [
+                ["What Im Afraid Of.mp3", "What I'm Afraid Of"]
             ]
         },
         "music_url":

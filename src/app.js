@@ -12,6 +12,7 @@ let prevSongButton = document.querySelector(".backward-btn");
 let musicNameText = document.querySelector(".music-name");
 let acousticSongsButton = document.querySelector(".music-tab.acoustic");
 let electronicSongsButton = document.querySelector(".music-tab.electronic");
+let bandSongsButton = document.querySelector(".music-tab.band");
 let artworkDisk = document.querySelector(".disk");
 
 
@@ -55,7 +56,7 @@ async function setSong(env, songIDX, newSongType) {
     }
     if (typeof newSongType === 'undefined') {
         if (typeof setSong.currentSongType === 'undefined'){
-            setSong.currentSongType = 'acoustic';
+            setSong.currentSongType = 'band';
         }
         else {
             ; // song type has already been set and a new one hasn't been passed in.
@@ -79,8 +80,9 @@ async function setSong(env, songIDX, newSongType) {
             musicFileNames.length + songIDX; // negative song idx.
                                              // songIDX === -1 => currentSongIDX === music len - 1, etc
 
-    music.src = `${musicURL}/${musicFileNames[setSong.currentSongIDX]}`;
-    musicNameText.innerHTML = getSongName(music);
+    music.src = `${musicURL}/${musicFileNames[setSong.currentSongIDX][0]}`;
+    // musicNameText.innerHTML = getSongName(music);
+    musicNameText.innerHTML = musicFileNames[setSong.currentSongIDX][1]
     music.load();
     // by default, music will pause when we switch songs, but let's be
     // explicit that we want music paused when the play button is set
@@ -121,6 +123,12 @@ electronicSongsButton.addEventListener('click', () => {
     setSong(ENV_CONFIG, setSong.currentSongIDX, 'electronic');
     // set icon to electronic image
     artworkDisk.style['background-image'] = 'url("electronic.jpg")'
+});
+
+bandSongsButton.addEventListener('click', () => {
+    setSong(ENV_CONFIG, setSong.currentSongIDX, 'band');
+    // set icon to electronic image
+    artworkDisk.style['background-image'] = 'url("band.png")'
 });
 
 nextSongButton.addEventListener('click', () => {
